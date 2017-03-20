@@ -9,7 +9,7 @@ class Phone extends React.Component {
         this.onClick = this.onClick.bind(this);
     }
     onClick(e) {
-        //this.props.onRemove(this.state.data);
+        this.props.onRemove(this.state.data);
     }
     render() {
         return <div>
@@ -17,7 +17,6 @@ class Phone extends React.Component {
             <p>Price {this.state.data.price}</p>   
             <p><button onClick={this.onClick}>Delete</button></p>
         </div>;
-        // <p><button onClick={this.onClick}>Удалить</button></p>
     }
 }
 class PhoneForm extends React.Component {
@@ -29,10 +28,10 @@ class PhoneForm extends React.Component {
         this.onPriceChange = this.onPriceChange.bind(this);
     }
     onNameChange(e) {
-        // this.setState({ name: e.target.value });
+        this.setState({ id: "", name: e.target.value, price: "" });
     }
     onPriceChange(e) {
-        // this.setState({ price: e.target.value });
+        this.setState({ id: "", name: name, price: e.target.value });
     }
     onSubmit(e) {
         e.preventDefault();
@@ -41,8 +40,8 @@ class PhoneForm extends React.Component {
         if (!phoneName /*|| phonePrice <= 0*/) {
             return;
         }
-        // this.props.onPhoneSubmit({ name: phoneName, price: phonePrice });
-        // this.setState({ name: "", price: 0 });
+        this.props.onPhoneSubmit({ name: phoneName, price: phonePrice });
+        this.setState({ id: "", name: "", price: "" });
     }
     render() {
         return (<form onSubmit={this.onSubmit}>
@@ -107,13 +106,13 @@ class PhonesList extends React.Component {
         }
     }
     render() {
-        //<PhoneForm onPhoneSubmit={this.onAddPhone} />
         var remove = this.onRemovePhone;
-        return <div>            
+        return <div>      
+            <PhoneForm onPhoneSubmit={this.onAddPhone}/>
             <h2>Phone list</h2>
             <div>
                 {this.state.phones.map(function (phone) {
-            return <Phone key={phone.id} phone={phone}/>;
+            return <Phone key={phone.id} phone={phone} onRemove={remove}/>;
         })}
             </div>            
         </div>;

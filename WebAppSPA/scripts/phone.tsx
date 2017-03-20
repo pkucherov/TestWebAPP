@@ -12,6 +12,7 @@ interface phone
 
 interface P {    
     phone: phone
+    onRemove: any
 }
 interface S {
     data: phone
@@ -25,20 +26,19 @@ class Phone extends React.Component <P, S>{
         this.onClick = this.onClick.bind(this);
     }
     onClick(e:any) {
-        //this.props.onRemove(this.state.data);
+        this.props.onRemove(this.state.data);
     }
     render() {
         return <div>
             <p><b>{this.state.data.name}</b></p>
             <p>Price {this.state.data.price}</p>   
             <p><button onClick={this.onClick}>Delete</button></p>
-        </div>;
-        // <p><button onClick={this.onClick}>Удалить</button></p>
+        </div>;       
     }
 }
 
 interface PPF {
-    onPhoneSubmit: React.FormEventHandler
+    onPhoneSubmit: any
 }
 interface SPF {
   
@@ -56,10 +56,10 @@ class PhoneForm extends React.Component <PPF, phone>{
     }
     
     onNameChange(e: React.FormEvent) {
-       // this.setState({ name: e.target.value });
+        this.setState({ id: "", name: (e.target as any).value , price: ""});
     }
     onPriceChange(e: React.FormEvent) {
-       // this.setState({ price: e.target.value });
+        this.setState({id: "", name: name, price: (e.target as any).value });
     }
     onSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -68,8 +68,8 @@ class PhoneForm extends React.Component <PPF, phone>{
         if (!phoneName /*|| phonePrice <= 0*/) {
             return;
         }
-       // this.props.onPhoneSubmit({ name: phoneName, price: phonePrice });
-       // this.setState({ name: "", price: 0 });
+        this.props.onPhoneSubmit({ name: phoneName, price: phonePrice });
+        this.setState({ id:"", name: "", price: "" });
     }
     
     render() {
@@ -156,16 +156,16 @@ class PhonesList extends React.Component <PPL, SPL>{
             xhr.send();
         }
     }
-    render() {
-        //<PhoneForm onPhoneSubmit={this.onAddPhone} />
+    render() {     
         var remove = this.onRemovePhone;
-        return <div>            
+        return <div>      
+            <PhoneForm onPhoneSubmit={this.onAddPhone} />
             <h2>Phone list</h2>
             <div>
                 {
                     this.state.phones.map(function (phone) {
 
-                        return <Phone key={phone.id} phone={phone} />
+                        return <Phone key={phone.id} phone={phone} onRemove={remove}/>
                     })
                 }
             </div>            
