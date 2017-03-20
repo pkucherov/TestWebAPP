@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "react": "registry:npm/react#15.0.1+20170104200836",
+    "react-dom": "registry:npm/react-dom#15.0.1+20160826174104"
+  },
+  "globalDependencies": {
+    "marked": "registry:dt/marked#0.0.0+20160510002910"
+  }
+}

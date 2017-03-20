@@ -1,0 +1,32 @@
+{
+  "name": "typescript-compile",
+  "version": "0.4.0",
+  "homepage": "https://github.com/markwylde/typescript-compile",
+  "authors": [
+    "Mark Wylde <mark.wylde@verl.com>",
+    "Jerzy Głowacki"
+  ],
+  "description": "Automatically compile TypeScript to JavaScript on the fly",
+  "main": "js/typescript.compile.min.js",
+  "keywords": [
+    "typescript"
+  ],
+  "license": "Apache 2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "0.4.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "0.4.0",
+    "commit": "d8b40947a1fb533c13735e6063a2444279b96819"
+  },
+  "_source": "https://github.com/markwylde/typescript-compile.git",
+  "_target": "0.4.0",
+  "_originalSource": "typescript-compile",
+  "_direct": true
+}
