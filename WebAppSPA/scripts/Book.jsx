@@ -12,11 +12,24 @@ class Book extends React.Component {
         //this.props.onRemove(this.state.data);
     }
     render() {
+        return <tr>
+            <td>
+                <p>Title  <b>{this.state.Data.title}</b></p>
+            </td>
+            <td>
+                <p>Author {this.state.Data.author}</p>
+            </td>
+            <td>
+                <p><button onClick={this.onClick}>Delete</button></p>
+            </td>
+        </tr>;
+        /*
         return <div>
             <p>Title  <b>{this.state.Data.title}</b></p>
             <p>Author {this.state.Data.author}</p>
             <p><button onClick={this.onClick}>Delete</button></p>
         </div>;
+        */
     }
 }
 class BookForm extends React.Component {
@@ -108,13 +121,29 @@ class BookList extends React.Component {
         //<PhoneForm onPhoneSubmit={this.onAddPhone} />
         var remove = this.onRemoveBook;
         return <div>
+            <table class="table">
+                <thead>
             <h2>Book list</h2>
-            <div>
+                </thead>
+                <tbody>
                 {this.state.Books.map(function (book) {
             return <Book key={book.bookID} Book={book}/>;
         })}
+                </tbody>
+            </table>
+        </div>;
+        /*return <div>
+            <h2>Book list</h2>
+            <div>
+                {
+                    this.state.Books.map(function (book) {
+
+                        return <Book key={book.bookID} Book={book} />
+                    })
+                }
             </div>
         </div>;
+        */
         /*
          return <div>
                 <PhoneForm onPhoneSubmit={this.onAddPhone} />
