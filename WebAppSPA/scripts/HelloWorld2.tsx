@@ -10,6 +10,7 @@ import { Time } from './Time';
 //import { BaseGrid } from './BaseGrid';
 import { Comment } from './commrt';
 import { PhonesList } from './phone';
+import { BookList } from './Book';
 
 interface MovieData {
     ID: number
@@ -85,6 +86,7 @@ render(<HelloWorld2 />, document.getElementById('hello-world-content'));
 
 render(<div>Bonjour!123</div>, document.getElementById('container'));
 render(<div>Bonjour!14</div>, document.getElementById('container2'));
-render(<div>Bonjour!35</div>, document.getElementById('container3'));
+//render(<div>Bonjour!35</div>, document.getElementById('container3'));
+render(<BookList apiUrl="/api/BooksAPI" />, document.getElementById("container3"));
 //render(<BaseGrid88 />, document.getElementById('container4'));
 render(<PhonesList apiUrl="/api/values" />,  document.getElementById("container5"));

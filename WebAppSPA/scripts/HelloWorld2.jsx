@@ -11,6 +11,7 @@ const Time_1 = require("./Time");
 //import { BaseGrid } from './BaseGrid';
 const commrt_1 = require("./commrt");
 const phone_1 = require("./phone");
+const Book_1 = require("./Book");
 class BaseGrid88 extends React.Component {
     constructor() {
         super();
@@ -49,7 +50,8 @@ class HelloWorld2 extends React.Component {
 react_dom_1.render(<HelloWorld2 />, document.getElementById('hello-world-content'));
 react_dom_1.render(<div>Bonjour!123</div>, document.getElementById('container'));
 react_dom_1.render(<div>Bonjour!14</div>, document.getElementById('container2'));
-react_dom_1.render(<div>Bonjour!35</div>, document.getElementById('container3'));
+//render(<div>Bonjour!35</div>, document.getElementById('container3'));
+react_dom_1.render(<Book_1.BookList apiUrl="/api/BooksAPI"/>, document.getElementById("container3"));
 //render(<BaseGrid88 />, document.getElementById('container4'));
 react_dom_1.render(<phone_1.PhonesList apiUrl="/api/values"/>, document.getElementById("container5"));
 //# sourceMappingURL=HelloWorld2.jsx.map

@@ -15,7 +15,8 @@
     "./Message.tsx",
     "./HelloWorld2.tsx",
     "./BaseGrid.tsx",
-    "./phone.tsx"
+    "./phone.tsx",
+    "./Book.tsx"
   ],
   "compileOnSave": true
 }
