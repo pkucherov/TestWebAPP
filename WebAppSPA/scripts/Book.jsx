@@ -6,10 +6,14 @@ class Book extends React.Component {
     constructor(props) {
         super(props);
         this.state = { Data: props.Book };
-        this.onClick = this.onClick.bind(this);
+        this.onClickEdit = this.onClickEdit.bind(this);
+        this.onClickDelete = this.onClickDelete.bind(this);
     }
-    onClick(e) {
-        //this.props.onRemove(this.state.data);
+    onClickEdit(e) {
+        this.props.onEdit(this.state.Data);
+    }
+    onClickDelete(e) {
+        this.props.onDelete(this.state.Data);
     }
     render() {
         return <tr>
@@ -17,25 +21,22 @@ class Book extends React.Component {
                 <p>Title  <b>{this.state.Data.title}</b></p>
             </td>
             <td>
-                <p>Author {this.state.Data.author}</p>
+                <p>Author {this.state.Data.author.firstName + this.state.Data.author.lastName}</p>
             </td>
             <td>
-                <p><button onClick={this.onClick}>Delete</button></p>
+                <p><button onClick={this.onClickEdit}>Edit</button></p>
+            </td>
+            <td>
+                <p><button onClick={this.onClickDelete}>Delete</button></p>
             </td>
         </tr>;
-        /*
-        return <div>
-            <p>Title  <b>{this.state.Data.title}</b></p>
-            <p>Author {this.state.Data.author}</p>
-            <p><button onClick={this.onClick}>Delete</button></p>
-        </div>;
-        */
     }
 }
 class BookForm extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { bookID: 0, authorID: 0, title: "", author: "" };
+        let aut = { authorID: 0, firstName: "", lastName: "" };
+        this.state = { bookID: 0, title: "", authorID: 0, author: aut };
         this.onSubmit = this.onSubmit.bind(this);
         this.onTitleChange = this.onTitleChange.bind(this);
         this.onAuthorChange = this.onAuthorChange.bind(this);
@@ -61,7 +62,7 @@ class BookForm extends React.Component {
                     <input type="text" placeholder="Book Title" value={this.state.title} onChange={this.onTitleChange}/>
                 </p>
                 <p>
-                    <input type="text" placeholder="Author" value={this.state.author} onChange={this.onAuthorChange}/>
+                    <input type="text" placeholder="Author" value={this.state.author.firstName + this.state.author.lastName} onChange={this.onAuthorChange}/>
                 </p>
                 <input type="submit" value="Save"/>
             </form>);
@@ -72,15 +73,19 @@ class BookList extends React.Component {
         super(props);
         this.state = { Books: [] };
         this.onAddBook = this.onAddBook.bind(this);
-        this.onRemoveBook = this.onRemoveBook.bind(this);
+        this.onDeleteBook = this.onDeleteBook.bind(this);
     }
-    // загрузка данных
     loadData() {
         var xhr = new XMLHttpRequest();
         xhr.open("get", this.props.apiUrl, true);
         xhr.onload = function () {
             var data = JSON.parse(xhr.responseText);
+            console.log(xhr.responseText);
+            console.log("object below");
+            console.log(data);
+            console.log("object above");
             this.setState({ Books: data });
+            console.log("setState completed");
         }.bind(this);
         xhr.send();
     }
@@ -88,6 +93,7 @@ class BookList extends React.Component {
         this.loadData();
     }
     //[{"bookID":1,"authorID":1,"title":"book1","author":null},{"
+    //[{"bookID":1,"authorID":1,"title":"book1","author":{"authorID":1,"firstName":"First","lastName":"Last"}}"
     onAddBook(book) {
         if (book) {
             var data = JSON.stringify({ "bookID": book.bookID, "title": book.title, "author": book.author });
@@ -102,8 +108,10 @@ class BookList extends React.Component {
             xhr.send(data);
         }
     }
-    // удаление объекта
-    onRemoveBook(book) {
+    onEditBook(book) {
+    }
+    onDeleteBook(book) {
+        console.log("onDeleteBook");
         if (book) {
             var url = this.props.apiUrl + "/" + book.bookID;
             var xhr = new XMLHttpRequest();
@@ -119,15 +127,16 @@ class BookList extends React.Component {
     }
     render() {
         //<PhoneForm onPhoneSubmit={this.onAddPhone} />
-        var remove = this.onRemoveBook;
+        let del = this.onDeleteBook;
+        let edit = this.onEditBook;
         return <div>
             <table class="table">
                 <thead>
-            <h2>Book list</h2>
+                    <p>Book list</p>
                 </thead>
                 <tbody>
-                {this.state.Books.map(function (book) {
-            return <Book key={book.bookID} Book={book}/>;
+                    {this.state.Books.map(function (book) {
+            return <Book key={book.bookID} Book={book} onDelete={del} onEdit={edit}/>;
         })}
                 </tbody>
             </table>
@@ -168,8 +177,4 @@ class BookList extends React.Component {
     }
 }
 exports.BookList = BookList;
-//render(
-//  <PhonesList apiUrl="/api/values" />,
-// document.getElementById("content")
-//);
 //# sourceMappingURL=Book.jsx.map

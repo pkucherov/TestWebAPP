@@ -25,7 +25,7 @@ namespace WebAppSPA.Controllers
         public IEnumerable<Book> Get()
         {
             var appDBContext = _context.Book.Include(b => b.Author);
-            return _context.Book;
+            return appDBContext;
         }
 
         // GET api/values/5
@@ -37,8 +37,18 @@ namespace WebAppSPA.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void /*IActionResult*/ Post([FromBody]string value)
         {
+            // phone.Id = Guid.NewGuid().ToString();
+            // data.Add(phone);
+            // return Ok(phone);
+
+           // if (ModelState.IsValid)
+           // {
+           //     _context.Add(book);
+           //     await _context.SaveChangesAsync();
+           //     return RedirectToAction("Index");
+           // }
         }
 
         // PUT api/values/5
@@ -49,8 +59,17 @@ namespace WebAppSPA.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void/*IActionResult*/ Delete(int id)
         {
+            //  NotFound(); Ok(book);                                   
+
+            var book = _context.Book.SingleOrDefault(m => m.BookID == id);
+
+            if (book != null)
+            {
+                _context.Book.Remove(book);
+                _context.SaveChanges();
+            }
         }
     }
 }

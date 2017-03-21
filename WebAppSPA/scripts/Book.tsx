@@ -3,15 +3,23 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 
+interface IAuthor {
+    authorID: number
+    firstName: string
+    lastName: string
+}
+//{ "bookID":1, "authorID":1, "title":"book1", "author":{ "authorID":1, "firstName":"First", "lastName":"Last" } }
 interface IBook {
     bookID: number
     authorID: number
-    title: string   
-    author: string
+    title: string
+    author: IAuthor
 }
 
 interface P {
     Book: IBook
+    onDelete: any
+    onEdit: any
 }
 interface S {
     Data: IBook
@@ -22,10 +30,14 @@ class Book extends React.Component<P, S>{
     constructor(props: P) {
         super(props);
         this.state = { Data: props.Book };
-        this.onClick = this.onClick.bind(this);
+        this.onClickEdit = this.onClickEdit.bind(this);
+        this.onClickDelete = this.onClickDelete.bind(this);
     }
-    onClick(e: any) {
-        //this.props.onRemove(this.state.data);
+    onClickEdit(e: any) {
+        this.props.onEdit(this.state.Data);
+    }
+    onClickDelete(e: any) {
+        this.props.onDelete(this.state.Data);
     }
     render() {
         return <tr>
@@ -33,19 +45,15 @@ class Book extends React.Component<P, S>{
                 <p>Title  <b>{this.state.Data.title}</b></p>
             </td>
             <td>
-                <p>Author {this.state.Data.author}</p>
+                <p>Author {this.state.Data.author.firstName + this.state.Data.author.lastName}</p>
             </td>
             <td>
-                <p><button onClick={this.onClick}>Delete</button></p>
+                <p><button onClick={this.onClickEdit}>Edit</button></p>
+            </td>
+            <td>
+                <p><button onClick={this.onClickDelete}>Delete</button></p>
             </td>
         </tr>;
-        /*
-        return <div>
-            <p>Title  <b>{this.state.Data.title}</b></p>
-            <p>Author {this.state.Data.author}</p>
-            <p><button onClick={this.onClick}>Delete</button></p>
-        </div>;
-        */
     }
 }
 
@@ -60,7 +68,8 @@ class BookForm extends React.Component<PPF, IBook>{
 
     constructor(props: any) {
         super(props);
-        this.state = { bookID: 0, authorID: 0, title: "", author: "" };
+        let aut = { authorID: 0, firstName: "", lastName: "" }
+        this.state = { bookID: 0, title: "", authorID: 0, author: aut };
 
         this.onSubmit = this.onSubmit.bind(this);
         this.onTitleChange = this.onTitleChange.bind(this);
@@ -76,7 +85,7 @@ class BookForm extends React.Component<PPF, IBook>{
     onSubmit(e: React.FormEvent) {
         e.preventDefault();
         var bookTitle = this.state.title.trim();
-        
+
         if (!bookTitle) {
             return;
         }
@@ -96,7 +105,7 @@ class BookForm extends React.Component<PPF, IBook>{
                 <p>
                     <input type="text"
                         placeholder="Author"
-                        value={this.state.author}
+                        value={this.state.author.firstName + this.state.author.lastName}
                         onChange={this.onAuthorChange} />
                 </p>
                 <input type="submit" value="Save" />
@@ -119,15 +128,20 @@ class BookList extends React.Component<PPL, SPL>{
         this.state = { Books: [] };
 
         this.onAddBook = this.onAddBook.bind(this);
-        this.onRemoveBook = this.onRemoveBook.bind(this);
+        this.onDeleteBook = this.onDeleteBook.bind(this);
     }
-    // загрузка данных
+
     loadData() {
         var xhr = new XMLHttpRequest();
         xhr.open("get", this.props.apiUrl, true);
         xhr.onload = function () {
-            var data = JSON.parse(xhr.responseText);
+            var data: IBook[] = JSON.parse(xhr.responseText);
+            console.log(xhr.responseText);
+            console.log("object below");
+            console.log(data);
+            console.log("object above");
             this.setState({ Books: data });
+            console.log("setState completed");
         }.bind(this);
         xhr.send();
     }
@@ -135,6 +149,7 @@ class BookList extends React.Component<PPL, SPL>{
         this.loadData();
     }
     //[{"bookID":1,"authorID":1,"title":"book1","author":null},{"
+    //[{"bookID":1,"authorID":1,"title":"book1","author":{"authorID":1,"firstName":"First","lastName":"Last"}}"
     onAddBook(book: IBook) {
         if (book) {
 
@@ -151,9 +166,11 @@ class BookList extends React.Component<PPL, SPL>{
             xhr.send(data);
         }
     }
-    // удаление объекта
-    onRemoveBook(book: IBook) {
+    onEditBook(book: IBook) {
 
+    }
+    onDeleteBook(book: IBook) {
+        console.log("onDeleteBook");
         if (book) {
             var url = this.props.apiUrl + "/" + book.bookID;
 
@@ -170,19 +187,20 @@ class BookList extends React.Component<PPL, SPL>{
     }
     render() {
         //<PhoneForm onPhoneSubmit={this.onAddPhone} />
-        var remove = this.onRemoveBook;
+        let del = this.onDeleteBook;
+        let edit = this.onEditBook;
         return <div>
             <table class="table">
                 <thead>
-            <h2>Book list</h2>
+                    <p>Book list</p>
                 </thead>
                 <tbody>
-                {
-                    this.state.Books.map(function (book) {
+                    {
+                        this.state.Books.map(function (book) {
 
-                        return <Book key={book.bookID} Book={book} />
-                    })
-                }
+                            return <Book key={book.bookID} Book={book} onDelete={del} onEdit={edit} />
+                        })
+                    }
                 </tbody>
             </table>
         </div>;
@@ -223,8 +241,3 @@ class BookList extends React.Component<PPL, SPL>{
 }
 
 export { BookList }
-
-//render(
-  //  <PhonesList apiUrl="/api/values" />,
-   // document.getElementById("content")
-//);
