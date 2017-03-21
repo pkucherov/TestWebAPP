@@ -135,13 +135,8 @@ class BookList extends React.Component<PPL, SPL>{
         var xhr = new XMLHttpRequest();
         xhr.open("get", this.props.apiUrl, true);
         xhr.onload = function () {
-            var data: IBook[] = JSON.parse(xhr.responseText);
-            console.log(xhr.responseText);
-            console.log("object below");
-            console.log(data);
-            console.log("object above");
-            this.setState({ Books: data });
-            console.log("setState completed");
+            var data: IBook[] = JSON.parse(xhr.responseText);          
+            this.setState({ Books: data });            
         }.bind(this);
         xhr.send();
     }
@@ -185,11 +180,16 @@ class BookList extends React.Component<PPL, SPL>{
             xhr.send();
         }
     }
+    onClickAdd()
+    {
+        console.log("onClickAdd")
+    }
     render() {
         //<PhoneForm onPhoneSubmit={this.onAddPhone} />
         let del = this.onDeleteBook;
         let edit = this.onEditBook;
         return <div>
+            <p><button onClick={this.onClickAdd}>Create Book</button></p>
             <table class="table">
                 <thead>
                     <p>Book list</p>
