@@ -58,7 +58,7 @@ class Book extends React.Component<P, S>{
 }
 
 interface PPF {
-    onBookSubmit: React.FormEventHandler
+    onBookSubmit: any
 }
 interface SPF {
 
@@ -120,12 +120,13 @@ interface PPL {
 }
 interface SPL {
     Books: IBook[]
+    IsShowCreate: boolean
 }
 class BookList extends React.Component<PPL, SPL>{
 
     constructor(props: any) {
         super(props);
-        this.state = { Books: [] };
+        this.state = { Books: [], IsShowCreate: false };
 
         this.onAddBook = this.onAddBook.bind(this);
         this.onDeleteBook = this.onDeleteBook.bind(this);
@@ -142,12 +143,10 @@ class BookList extends React.Component<PPL, SPL>{
     }
     componentDidMount() {
         this.loadData();
-    }
-    //[{"bookID":1,"authorID":1,"title":"book1","author":null},{"
+    }    
     //[{"bookID":1,"authorID":1,"title":"book1","author":{"authorID":1,"firstName":"First","lastName":"Last"}}"
     onAddBook(book: IBook) {
         if (book) {
-
             var data = JSON.stringify({ "bookID": book.bookID, "title": book.title, "author": book.author });
             var xhr = new XMLHttpRequest();
 
@@ -183,13 +182,22 @@ class BookList extends React.Component<PPL, SPL>{
     onClickAdd()
     {
         console.log("onClickAdd")
+      //  this.setState({ IsShowCreate: true })
     }
-    render() {
-        //<PhoneForm onPhoneSubmit={this.onAddPhone} />
+    render() {        
         let del = this.onDeleteBook;
         let edit = this.onEditBook;
+        let createForm = (<div> </div>);
+        if (this.state.IsShowCreate) {
+            createForm = (
+                <div>
+                    <BookForm onBookSubmit={this.onAddBook}/>
+                </div>
+            );
+        }       
         return <div>
-            <p><button onClick={this.onClickAdd}>Create Book</button></p>
+            <p><button onClick={this.onClickAdd}>Create Book</button></p>       
+            {createForm}
             <table class="table">
                 <thead>
                     <p>Book list</p>
@@ -204,39 +212,6 @@ class BookList extends React.Component<PPL, SPL>{
                 </tbody>
             </table>
         </div>;
-        /*return <div>
-            <h2>Book list</h2>
-            <div>
-                {
-                    this.state.Books.map(function (book) {
-
-                        return <Book key={book.bookID} Book={book} />
-                    })
-                }
-            </div>
-        </div>;
-        */
-        /*
-         return <div>
-                <PhoneForm onPhoneSubmit={this.onAddPhone} />
-                <h2>Book list</h2>
-                <div>
-                    {
-                    this.state.phones.map(function(phone){
-
-                    return <Phone key={phone.id} phone={phone} onRemove={remove} />
-                    })
-                    }
-                </div>
-        </div>;
-        <div>
-            {
-                this.state.phones.map(function (phone) {
-
-                    return <Phone key={phone.id} phone={phone} onRemove={remove} />
-                })
-            }
-        </div>*/
     }
 }
 
