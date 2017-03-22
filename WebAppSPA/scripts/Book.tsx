@@ -130,6 +130,7 @@ class BookList extends React.Component<PPL, SPL>{
 
         this.onAddBook = this.onAddBook.bind(this);
         this.onDeleteBook = this.onDeleteBook.bind(this);
+        this.onClickAdd = this.onClickAdd.bind(this);
     }
 
     loadData() {
@@ -182,7 +183,15 @@ class BookList extends React.Component<PPL, SPL>{
     onClickAdd()
     {
         console.log("onClickAdd")
-      //  this.setState({ IsShowCreate: true })
+        if (this.state == null) {
+            console.log("this.state == null")
+        }
+        else {
+            console.log(this.state)
+            let tmpbooks = this.state.Books;
+            this.setState({ Books: tmpbooks, IsShowCreate: true })
+            console.log("onClickAddexit")
+        }
     }
     render() {        
         let del = this.onDeleteBook;
