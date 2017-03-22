@@ -30,5 +30,9 @@ npm install --save-dev babel-preset-react
 
 Add-Migration 
 Update-Database 
+Install-Package Microsoft.EntityFrameworkCore.Tools
+Install-Package Microsoft.EntityFrameworkCore.SqlServer
+Add-Migration MyFirstMigration
+Update-Database
 
 
