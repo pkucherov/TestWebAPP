@@ -77,17 +77,17 @@ class PhoneForm extends React.Component <PPF, phone>{
             <form onSubmit={this.onSubmit}>
                 <p>
                     <input type="text"
-                        placeholder="Модель телефона"
+                        placeholder="Phone"
                         value={this.state.name}
                         onChange={this.onNameChange} />
                 </p>
                 <p>
                     <input type="number"
-                        placeholder="Цена"
+                        placeholder="Price"
                         value={this.state.price}
                         onChange={this.onPriceChange} />
                 </p>
-                <input type="submit" value="Сохранить" />
+                <input type="submit" value="Save" />
             </form>
         );
     }
@@ -109,7 +109,7 @@ class PhonesList extends React.Component <PPL, SPL>{
         this.onAddPhone = this.onAddPhone.bind(this);
         this.onRemovePhone = this.onRemovePhone.bind(this);
     }
-    // загрузка данных
+    
     loadData() {
         var xhr = new XMLHttpRequest();
         xhr.open("get", this.props.apiUrl, true);
@@ -122,7 +122,7 @@ class PhonesList extends React.Component <PPL, SPL>{
     componentDidMount() {
         this.loadData();
     }
-    // добавление объекта
+    
     onAddPhone(phone:phone) {
         if (phone) {
 
@@ -139,9 +139,8 @@ class PhonesList extends React.Component <PPL, SPL>{
             xhr.send(data);
         }
     }
-    // удаление объекта
+    
     onRemovePhone(phone:phone) {
-
         if (phone) {
             var url = this.props.apiUrl + "/" + phone.id;
 
@@ -169,34 +168,8 @@ class PhonesList extends React.Component <PPL, SPL>{
                     })
                 }
             </div>            
-        </div>;
-        /*
-         return <div>
-                <PhoneForm onPhoneSubmit={this.onAddPhone} />
-                <h2>Список смартфонов</h2>
-                <div>
-                    {
-                    this.state.phones.map(function(phone){
-
-                    return <Phone key={phone.id} phone={phone} onRemove={remove} />
-                    })
-                    }
-                </div>
-        </div>;
-        <div>
-            {
-                this.state.phones.map(function (phone) {
-
-                    return <Phone key={phone.id} phone={phone} onRemove={remove} />
-                })
-            }
-        </div>*/
+        </div>;     
     }
 }
 
 export { PhonesList }
-
-//render(
-  //  <PhonesList apiUrl="/api/values" />,
-   // document.getElementById("content")
-//);

@@ -42,10 +42,10 @@ class Book extends React.Component<P, S>{
     render() {
         return <tr>
             <td>
-                <p>Title  <b>{this.state.Data.title}</b></p>
+                <p>{this.state.Data.title}</p>
             </td>
             <td>
-                <p>Author {this.state.Data.author.firstName + this.state.Data.author.lastName}</p>
+                <p>{this.state.Data.author.firstName + " " + this.state.Data.author.lastName}</p>
             </td>
             <td>
                 <p><button onClick={this.onClickEdit}>Edit</button></p>
@@ -157,14 +157,11 @@ class BookList extends React.Component<PPL, SPL>{
     }    
     //[{"bookID":1,"authorID":1,"title":"book1","author":{"authorID":1,"firstName":"First","lastName":"Last"}}"
     onAddBook(book: IBook) {       
-        if (book) {
-            console.log("onAddBook");
-            console.log(book);
+        if (book) {            
             var data = JSON.stringify({
                 "bookID": book.bookID, "authorID": book.authorID, "title": book.title
             });
-            console.log("data");
-            console.log(data);
+            
             var xhr = new XMLHttpRequest();
 
             xhr.open("post", this.props.apiUrl, true);
@@ -217,12 +214,11 @@ class BookList extends React.Component<PPL, SPL>{
             {createForm}
             <table class="table">
                 <thead>
-                    <p>Book list</p>
+                    <p><b>Book list</b></p>
                 </thead>
                 <tbody>
                     {
                         this.state.Books.map(function (book) {
-
                             return <Book key={book.bookID} Book={book} onDelete={del} onEdit={edit} />
                         })
                     }

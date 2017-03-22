@@ -18,10 +18,10 @@ class Book extends React.Component {
     render() {
         return <tr>
             <td>
-                <p>Title  <b>{this.state.Data.title}</b></p>
+                <p>{this.state.Data.title}</p>
             </td>
             <td>
-                <p>Author {this.state.Data.author.firstName + this.state.Data.author.lastName}</p>
+                <p>{this.state.Data.author.firstName + " " + this.state.Data.author.lastName}</p>
             </td>
             <td>
                 <p><button onClick={this.onClickEdit}>Edit</button></p>
@@ -102,13 +102,9 @@ class BookList extends React.Component {
     //[{"bookID":1,"authorID":1,"title":"book1","author":{"authorID":1,"firstName":"First","lastName":"Last"}}"
     onAddBook(book) {
         if (book) {
-            console.log("onAddBook");
-            console.log(book);
             var data = JSON.stringify({
                 "bookID": book.bookID, "authorID": book.authorID, "title": book.title
             });
-            console.log("data");
-            console.log(data);
             var xhr = new XMLHttpRequest();
             xhr.open("post", this.props.apiUrl, true);
             xhr.setRequestHeader("Content-type", "application/json");
@@ -155,7 +151,7 @@ class BookList extends React.Component {
             {createForm}
             <table class="table">
                 <thead>
-                    <p>Book list</p>
+                    <p><b>Book list</b></p>
                 </thead>
                 <tbody>
                     {this.state.Books.map(function (book) {

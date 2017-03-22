@@ -46,12 +46,12 @@ class PhoneForm extends React.Component {
     render() {
         return (<form onSubmit={this.onSubmit}>
                 <p>
-                    <input type="text" placeholder="Модель телефона" value={this.state.name} onChange={this.onNameChange}/>
+                    <input type="text" placeholder="Phone" value={this.state.name} onChange={this.onNameChange}/>
                 </p>
                 <p>
-                    <input type="number" placeholder="Цена" value={this.state.price} onChange={this.onPriceChange}/>
+                    <input type="number" placeholder="Price" value={this.state.price} onChange={this.onPriceChange}/>
                 </p>
-                <input type="submit" value="Сохранить"/>
+                <input type="submit" value="Save"/>
             </form>);
     }
 }
@@ -62,7 +62,6 @@ class PhonesList extends React.Component {
         this.onAddPhone = this.onAddPhone.bind(this);
         this.onRemovePhone = this.onRemovePhone.bind(this);
     }
-    // загрузка данных
     loadData() {
         var xhr = new XMLHttpRequest();
         xhr.open("get", this.props.apiUrl, true);
@@ -75,7 +74,6 @@ class PhonesList extends React.Component {
     componentDidMount() {
         this.loadData();
     }
-    // добавление объекта
     onAddPhone(phone) {
         if (phone) {
             var data = JSON.stringify({ "name": phone.name, "price": phone.price });
@@ -90,7 +88,6 @@ class PhonesList extends React.Component {
             xhr.send(data);
         }
     }
-    // удаление объекта
     onRemovePhone(phone) {
         if (phone) {
             var url = this.props.apiUrl + "/" + phone.id;
@@ -116,32 +113,7 @@ class PhonesList extends React.Component {
         })}
             </div>            
         </div>;
-        /*
-         return <div>
-                <PhoneForm onPhoneSubmit={this.onAddPhone} />
-                <h2>Список смартфонов</h2>
-                <div>
-                    {
-                    this.state.phones.map(function(phone){
-
-                    return <Phone key={phone.id} phone={phone} onRemove={remove} />
-                    })
-                    }
-                </div>
-        </div>;
-        <div>
-            {
-                this.state.phones.map(function (phone) {
-
-                    return <Phone key={phone.id} phone={phone} onRemove={remove} />
-                })
-            }
-        </div>*/
     }
 }
 exports.PhonesList = PhonesList;
-//render(
-//  <PhonesList apiUrl="/api/values" />,
-// document.getElementById("content")
-//);
 //# sourceMappingURL=phone.jsx.map

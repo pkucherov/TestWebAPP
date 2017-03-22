@@ -37,7 +37,7 @@ namespace WebAppSPA.Controllers
         private static int globalbookid = 10;
         // POST api/values
         [HttpPost]
-        public void /*IActionResult*/ Post([Bind("AuthorID,Title")][FromBody]Book book)
+        public void Post([Bind("AuthorID,Title")][FromBody]Book book)
         {
             if (book != null && ModelState.IsValid)
             {              
@@ -55,10 +55,8 @@ namespace WebAppSPA.Controllers
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
-        public void/*IActionResult*/ Delete(int id)
+        public void Delete(int id)
         {
-            //  NotFound(); Ok(book);                                   
-
             var book = _context.Book.SingleOrDefault(m => m.BookID == id);
 
             if (book != null)
