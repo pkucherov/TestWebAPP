@@ -34,21 +34,17 @@ namespace WebAppSPA.Controllers
         {
             return "value";
         }
-
+        private static int globalbookid = 10;
         // POST api/values
         [HttpPost]
-        public void /*IActionResult*/ Post([FromBody]string value)
+        public void /*IActionResult*/ Post([Bind("AuthorID,Title")][FromBody]Book book)
         {
-            // phone.Id = Guid.NewGuid().ToString();
-            // data.Add(phone);
-            // return Ok(phone);
-
-           // if (ModelState.IsValid)
-           // {
-           //     _context.Add(book);
-           //     await _context.SaveChangesAsync();
-           //     return RedirectToAction("Index");
-           // }
+            if (book != null && ModelState.IsValid)
+            {              
+                book.AuthorID = 1;
+                _context.Add(book);
+                _context.SaveChanges();
+            }         
         }
 
         // PUT api/values/5

@@ -42,10 +42,19 @@ class BookForm extends React.Component {
         this.onAuthorChange = this.onAuthorChange.bind(this);
     }
     onTitleChange(e) {
-        // this.setState({ name: e.target.value });
+        /*
+         bookID: number
+         authorID: number
+         title: string
+         author: IAuthor
+        */
+        this.setState({
+            bookID: this.state.bookID, title: e.target.value, authorID: this.state.authorID,
+            author: this.state.author
+        });
     }
     onAuthorChange(e) {
-        // this.setState({ price: e.target.value });
+        //  this.setState({ price: e.target.value });
     }
     onSubmit(e) {
         e.preventDefault();
@@ -53,8 +62,10 @@ class BookForm extends React.Component {
         if (!bookTitle) {
             return;
         }
-        // this.props.onBookSubmit({ name: bookTitle });
-        // this.setState({ name: "", price: 0 });
+        this.props.onBookSubmit({
+            bookID: 0, title: bookTitle, authorID: 0, author: { authorID: 0, firstName: "", lastName: "" }
+        });
+        this.setState({ bookID: 0, title: "", authorID: 0, author: { authorID: 0, firstName: "", lastName: "" } });
     }
     render() {
         return (<form onSubmit={this.onSubmit}>
@@ -91,7 +102,13 @@ class BookList extends React.Component {
     //[{"bookID":1,"authorID":1,"title":"book1","author":{"authorID":1,"firstName":"First","lastName":"Last"}}"
     onAddBook(book) {
         if (book) {
-            var data = JSON.stringify({ "bookID": book.bookID, "title": book.title, "author": book.author });
+            console.log("onAddBook");
+            console.log(book);
+            var data = JSON.stringify({
+                "bookID": book.bookID, "authorID": book.authorID, "title": book.title
+            });
+            console.log("data");
+            console.log(data);
             var xhr = new XMLHttpRequest();
             xhr.open("post", this.props.apiUrl, true);
             xhr.setRequestHeader("Content-type", "application/json");
@@ -121,16 +138,8 @@ class BookList extends React.Component {
         }
     }
     onClickAdd() {
-        console.log("onClickAdd");
-        if (this.state == null) {
-            console.log("this.state == null");
-        }
-        else {
-            console.log(this.state);
-            let tmpbooks = this.state.Books;
-            this.setState({ Books: tmpbooks, IsShowCreate: true });
-            console.log("onClickAddexit");
-        }
+        let tmpbooks = this.state.Books;
+        this.setState({ Books: tmpbooks, IsShowCreate: true });
     }
     render() {
         let del = this.onDeleteBook;
